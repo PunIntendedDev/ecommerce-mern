@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-  // Get token from header (just the token string, no "Bearer")
   const token = req.headers.authorization;
   
   console.log("Received token:", token ? "Token present" : "No token");
@@ -13,7 +12,7 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, "secret");
     console.log("Decoded token:", decoded);
-    req.userId = decoded.id; // Make sure this matches your JWT payload structure
+    req.userId = decoded.id; 
     next();
   } catch (err) {
     console.error("Token verification error:", err.message);

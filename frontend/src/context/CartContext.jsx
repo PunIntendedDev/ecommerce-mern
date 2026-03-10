@@ -39,10 +39,9 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // NEW: Logout function
   const logout = () => {
-    localStorage.removeItem("token"); // Remove token
-    setCart([]); // Clear cart state
+    localStorage.removeItem("token"); 
+    setCart([]); 
   };
 
   useEffect(() => {
@@ -109,7 +108,7 @@ export const CartProvider = ({ children }) => {
       removeFromCart,
       clearCart,
       fetchCart,
-      logout // Add logout to context
+      logout 
     }}>
       {children}
     </CartContext.Provider>

@@ -1,14 +1,14 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../context/CartContext"; // Import CartContext
+import { CartContext } from "../context/CartContext"; 
 import { GoogleLogin } from "@react-oauth/google";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { fetchCart } = useContext(CartContext); // Get fetchCart function
+  const { fetchCart } = useContext(CartContext); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ function SignIn() {
     );
 
     localStorage.setItem("token", res.data.token);
-    await fetchCart(); // Fetch the new user's cart immediately
+    await fetchCart(); 
     navigate("/products");
   };
 
@@ -29,7 +29,7 @@ function SignIn() {
     );
 
     localStorage.setItem("token", result.data.token);
-    await fetchCart(); // Fetch the new user's cart immediately
+    await fetchCart(); 
     navigate("/products");
   };
 

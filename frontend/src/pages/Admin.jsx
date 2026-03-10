@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar"; // Import Navbar
+import Navbar from "../components/Navbar"; 
 
 function Admin() {
   const [title, setTitle] = useState("");
@@ -22,14 +22,13 @@ function Admin() {
         },
         {
           headers: {
-            Authorization: token // Send token for authentication
+            Authorization: token 
           }
         }
       );
 
       alert("Product added successfully!");
       
-      // Clear form
       setTitle("");
       setDescription("");
       setPrice("");
@@ -43,7 +42,7 @@ function Admin() {
 
   return (
     <>
-      <Navbar /> {/* Add Navbar here */}
+      <Navbar /> 
       
       <div className="p-8 max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
@@ -88,7 +87,6 @@ function Admin() {
           </button>
         </div>
 
-        {/* Optional: Add a preview section */}
         {title && description && price && image && (
           <div className="mt-8 bg-gray-100 p-6 rounded">
             <h3 className="text-lg font-semibold mb-2">Preview:</h3>

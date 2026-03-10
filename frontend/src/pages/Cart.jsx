@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 function Cart() {
   const { cart, removeFromCart } = useContext(CartContext);
 
-  // Calculate total safely
   const calculateTotal = () => {
     if (!cart || cart.length === 0) return 0;
     
@@ -35,7 +34,6 @@ function Cart() {
             className="border p-4 mb-3 flex justify-between items-center rounded"
           >
             <div className="flex items-center gap-4">
-              {/* Optional: Show product image if available */}
               {item.productId?.image && (
                 <img 
                   src={item.productId.image} 
@@ -63,7 +61,6 @@ function Cart() {
           </div>
         ))}
 
-        {/* Show total if cart has items */}
         {cart && cart.length > 0 && (
           <div className="mt-6 border-t pt-4">
             <div className="flex justify-between items-center text-xl">
