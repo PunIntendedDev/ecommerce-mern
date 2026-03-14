@@ -4,6 +4,8 @@ import ProductCard from "../components/ProductCard";
 import Navbar from "../components/Navbar";
 import { CartContext } from "../context/CartContext";
 
+const API = import.meta.env.VITE_API_URL;
+
 function Products() {
   const [products, setProducts] = useState([]);
   const { addToCart } = useContext(CartContext);
@@ -11,7 +13,7 @@ function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products");
+        const res = await axios.get(`${API}/cart`/products``);
         setProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);

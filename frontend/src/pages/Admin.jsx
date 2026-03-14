@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"; 
 
+const API = import.meta.env.VITE_API_URL;
+
 function Admin() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -13,7 +15,7 @@ function Admin() {
       const token = localStorage.getItem("token");
       
       await axios.post(
-        "http://localhost:5000/api/products/add",
+        `${API}/cart`/products/add``,
         {
           title,
           description,

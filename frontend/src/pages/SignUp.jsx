@@ -13,7 +13,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post("http://localhost:5000/api/auth/signup",{
+    await axios.post(`${API}/cart/auth/signup`,{
       name,
       email,
       password

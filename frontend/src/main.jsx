@@ -9,7 +9,7 @@ const userToken = localStorage.getItem("token");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="427705367574-fb5hn0g5si5u8dus4ec56mjonvtlcjgl.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="import.meta.env.VITE_GOOGLE_CLIENT_ID">
       <CartProvider>
         <App />
       </CartProvider>

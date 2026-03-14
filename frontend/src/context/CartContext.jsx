@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL;
+
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
@@ -28,7 +30,7 @@ export const CartProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:5000/api/cart",
+        `${API}/cart`,
         getAuthHeaders()
       );
       setCart(response.data);
@@ -57,7 +59,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/cart/add",
+        `${API}/cart/add`,
         { productId: product._id },
         getAuthHeaders()
       );
@@ -74,7 +76,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/cart/remove",
+        `${API}/cart/remove`,
         { productId },
         getAuthHeaders()
       );
@@ -90,7 +92,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/cart/clear",
+        `${API}/cart/clear`,
         {},
         getAuthHeaders()
       );
