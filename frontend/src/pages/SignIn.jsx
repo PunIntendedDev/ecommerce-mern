@@ -14,7 +14,7 @@ function SignIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
     const res = await axios.post(
-      `${API_URLI}/api/cart/auth/signin`,
+      `${API_URL}/api/cart/auth/signin`,
       { email, password }
     );
 

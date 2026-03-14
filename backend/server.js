@@ -9,6 +9,8 @@ const cartRoutes = require("./routes/cartRoutes");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 
+require("node:dns/promises").setServers(["1.1.1.1", "8.8.8.8"]);
+
 const app = express();
 
 connectDB();

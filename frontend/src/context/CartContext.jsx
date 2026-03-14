@@ -91,7 +91,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `${API_URLI}/api/cart/clear`,
+        `${API_URL}/api/cart/clear`,
         {},
         getAuthHeaders()
       );
