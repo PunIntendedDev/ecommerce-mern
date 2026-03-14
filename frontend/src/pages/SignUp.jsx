@@ -14,7 +14,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post(`${API_URL}/api/cart/auth/signup`,{
+    await axios.post(`${API_URL}/api/auth/signup`,{
       name,
       email,
       password
