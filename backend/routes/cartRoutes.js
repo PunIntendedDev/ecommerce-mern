@@ -1,9 +1,9 @@
-const express = require("express"); 
-const router = express.Router();     
-const User = require("../models/User");
-const verifyToken = require("../middleware/authMiddleware");
+import express from 'express';
+import User from '../models/User.js';
+import verifyToken from '../middleware/authMiddleware.js';
 
-// GET user's cart
+const router = express.Router();
+
 router.get("/", verifyToken, async (req, res) => {
   try {
     console.log("Fetching cart for user:", req.userId);
@@ -21,7 +21,6 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
-// Add item to cart
 router.post("/add", verifyToken, async (req, res) => {
   try {
     console.log("Adding to cart - User:", req.userId);
@@ -39,17 +38,14 @@ router.post("/add", verifyToken, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     
-    // Safely find existing item
     const item = user.cart.find(p => 
       p.productId && p.productId.toString() === productId
     );
     
     if (item) {
-      // Item exists - increment quantity
       item.quantity = (item.quantity || 1) + 1;
       console.log("Incremented quantity for existing item");
     } else {
-      // New item - add to cart
       user.cart.push({ 
         productId: productId, 
         quantity: 1 
@@ -67,7 +63,6 @@ router.post("/add", verifyToken, async (req, res) => {
   }
 });
 
-// Remove item from cart
 router.post("/remove", verifyToken, async (req, res) => {
   try {
     console.log("Removing from cart - User:", req.userId);
@@ -85,7 +80,6 @@ router.post("/remove", verifyToken, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     
-    // Filter out the item to remove
     user.cart = user.cart.filter(p => 
       !(p.productId && p.productId.toString() === productId)
     );
@@ -100,7 +94,6 @@ router.post("/remove", verifyToken, async (req, res) => {
   }
 });
 
-// Clear cart
 router.post("/clear", verifyToken, async (req, res) => {
   try {
     console.log("Clearing cart - User:", req.userId);
@@ -121,4 +114,4 @@ router.post("/clear", verifyToken, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

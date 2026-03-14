@@ -1,8 +1,10 @@
-const router = require("express").Router();
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const axios = require("axios");
+import express from 'express';
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import axios from 'axios';
+
+const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
@@ -138,4 +140,4 @@ router.post("/google", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router; 
