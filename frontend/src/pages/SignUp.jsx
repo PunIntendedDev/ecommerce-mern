@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from '../config';
 
 function SignUp() {
 
@@ -13,7 +14,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post(`${API}/cart/auth/signup`,{
+    await axios.post(`${API_URL}/api/cart/auth/signup`,{
       name,
       email,
       password

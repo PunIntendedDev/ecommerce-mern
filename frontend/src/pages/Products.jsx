@@ -3,8 +3,7 @@ import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import Navbar from "../components/Navbar";
 import { CartContext } from "../context/CartContext";
-
-const API = import.meta.env.VITE_API_URL;
+import API_URL from '../config';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -13,7 +12,7 @@ function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${API}/cart`/products``);
+        const res = await axios.get(`${API_URL}/api/cart`/products``);
         setProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);

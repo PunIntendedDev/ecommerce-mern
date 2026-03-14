@@ -3,8 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext"; 
 import { GoogleLogin } from "@react-oauth/google";
-
-const API = import.meta.env.VITE_API_URL;
+import API_URL from '../config';
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -15,7 +14,7 @@ function SignIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
     const res = await axios.post(
-      `${API}/cart/auth/signin`,
+      `${API_URLI}/api/cart/auth/signin`,
       { email, password }
     );
 
@@ -26,7 +25,7 @@ function SignIn() {
 
   const googleSuccess = async (res) => {
     const result = await axios.post(
-      `${API}/cart/auth/google`,
+      `${API_URL}/api/cart/auth/google`,
       { token: res.credential }
     );
 
