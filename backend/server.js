@@ -1,15 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://your-project-name.vercel.app"
-    ],
-    credentials: true
-  })
-);
+app.use(cors());
 
 const connectDB = require("./config/db");
 
