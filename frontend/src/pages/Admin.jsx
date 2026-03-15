@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import API_URL from '../config';
 import { useNavigate } from "react-router-dom";
@@ -15,13 +15,6 @@ function Admin() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const adminAuth = localStorage.getItem("isAdmin");
-    if (adminAuth === "true") {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
   const handleAdminLogin = (e) => {
     e.preventDefault();
     
@@ -29,8 +22,6 @@ function Admin() {
     const validPassword = import.meta.env.VITE_ADMIN_PASSWORD;
     
     if (adminEmail === validEmail && adminPassword === validPassword) {
-      localStorage.setItem("isAdmin", "true");
-      localStorage.setItem("token", "admin-token");
       setIsAuthenticated(true);
       setError("");
     } else {
@@ -39,18 +30,14 @@ function Admin() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("token");
     setIsAuthenticated(false);
     setAdminEmail("");
     setAdminPassword("");
-    navigate("/");
   };
 
   const addProduct = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
       
       await axios.post(
         `${API_URL}/api/products/add`,
@@ -59,11 +46,6 @@ function Admin() {
           description,
           price,
           image
-        },
-        {
-          headers: {
-            Authorization: token 
-          }
         }
       );
 
@@ -82,7 +64,6 @@ function Admin() {
     }
   };
 
-  // Admin Login Screen
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -119,7 +100,7 @@ function Admin() {
               type="submit"
               className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
             >
-              Login as Admin
+              Login
             </button>
           </form>
           
@@ -134,10 +115,8 @@ function Admin() {
     );
   }
 
-  // Admin Panel (after login)
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Simple Admin Header without navbar */}
       <div className="bg-gray-900 text-white p-4">
         <div className="max-w-2xl mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">MyStore Admin</h1>
@@ -148,7 +127,7 @@ function Admin() {
               rel="noopener noreferrer"
               className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm"
             >
-              View Products JSON
+              View Products
             </a>
             <button
               onClick={handleLogout}
@@ -160,7 +139,6 @@ function Admin() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="p-8 max-w-2xl mx-auto">
         <div className="bg-white shadow-md rounded p-6">
           <h2 className="text-xl font-semibold mb-4">Add New Product</h2>
@@ -210,27 +188,6 @@ function Admin() {
             {loading ? "Adding Product..." : "Add Product"}
           </button>
         </div>
-
-        {/* Preview Section */}
-        {title && description && price && image && (
-          <div className="mt-8 bg-white p-6 rounded shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Preview:</h3>
-            <div className="border rounded-lg p-4">
-              <img
-                src={image}
-                alt={title}
-                className="h-40 w-full object-cover rounded"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "https://via.placeholder.com/300x200?text=Invalid+Image+URL";
-                }}
-              />
-              <h4 className="font-bold mt-2">{title}</h4>
-              <p className="text-gray-600">{description}</p>
-              <p className="font-semibold mt-1">${price}</p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
