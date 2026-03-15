@@ -8,11 +8,13 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);  
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     
     console.log("Login attempt with:", { email, password });
     
@@ -34,6 +36,8 @@ function SignIn() {
       } else {
         setError("Server error. Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,6 +73,7 @@ function SignIn() {
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
+          disabled={loading} 
         />
 
         <input
@@ -78,11 +83,17 @@ function SignIn() {
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
+          disabled={loading} 
         />
 
         <button 
           type="submit"
-          className="bg-blue-600 text-white w-full py-2 rounded mb-4 hover:bg-blue-700"
+          disabled={loading} 
+          className={`w-full py-2 rounded mb-4 text-white ${
+            loading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700'
+          }`}
         >
           Login
         </button>
