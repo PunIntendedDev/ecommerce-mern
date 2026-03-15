@@ -8,6 +8,9 @@ function Home() {
         <h1 className="text-xl font-bold">MyStore</h1>
 
         <div className="space-x-4">
+          <Link to="/admin" className="hover:underline text-gray-300 hover:text-white">
+            Admin
+          </Link>
           <Link to="/signin" className="hover:underline">Sign In</Link>
           <Link to="/signup" className="hover:underline">Sign Up</Link>
         </div>

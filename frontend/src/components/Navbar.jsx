@@ -10,6 +10,7 @@ function Navbar() {
 
   const handleLogout = () => {
     logout(); 
+    localStorage.removeItem("isAdmin"); // Also clear admin status
     navigate("/signin"); 
   };
 
@@ -33,11 +34,7 @@ function Navbar() {
           )}
         </Link>
 
-        {isLoggedIn && (
-          <Link to="/admin" className="hover:text-gray-300">
-            Admin
-          </Link>
-        )}
+        {/* REMOVED: Admin link from here */}
 
         {isLoggedIn ? (
           <button
