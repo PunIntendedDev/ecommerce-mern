@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar"; 
 import API_URL from '../config';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
   const [title, setTitle] = useState("");
@@ -83,23 +82,24 @@ function Admin() {
     }
   };
 
+  // Admin Login Screen
   if (!isAuthenticated) {
     return (
-      <>
-        <Navbar />
-        <div className="flex justify-center mt-20">
-          <form onSubmit={handleAdminLogin} className="bg-white p-8 shadow rounded w-96">
-            <h2 className="text-2xl mb-6 font-bold">Admin Login</h2>
-            
-            {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                {error}
-              </div>
-            )}
-            
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="bg-white p-8 shadow rounded w-96">
+          <h1 className="text-3xl font-bold text-center mb-2">MyStore</h1>
+          <h2 className="text-xl mb-6 text-center text-gray-600">Admin Login</h2>
+          
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={handleAdminLogin}>
             <input
               type="email"
-              className="border p-2 w-full mb-4"
+              className="border p-2 w-full mb-4 rounded"
               placeholder="Admin Email"
               value={adminEmail}
               onChange={e => setAdminEmail(e.target.value)}
@@ -108,7 +108,7 @@ function Admin() {
 
             <input
               type="password"
-              className="border p-2 w-full mb-4"
+              className="border p-2 w-full mb-4 rounded"
               placeholder="Admin Password"
               value={adminPassword}
               onChange={e => setAdminPassword(e.target.value)}
@@ -122,37 +122,46 @@ function Admin() {
               Login as Admin
             </button>
           </form>
+          
+          <button
+            onClick={() => navigate("/")}
+            className="mt-4 text-blue-600 hover:text-blue-800 text-sm w-full text-center"
+          >
+            ← Back to Home
+          </button>
         </div>
-      </>
+      </div>
     );
   }
 
+  // Admin Panel (after login)
   return (
-    <>
-      <Navbar />
-      
-      <div className="p-8 max-w-2xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Admin Panel</h1>
+    <div className="min-h-screen bg-gray-100">
+      {/* Simple Admin Header without navbar */}
+      <div className="bg-gray-900 text-white p-4">
+        <div className="max-w-2xl mx-auto flex justify-between items-center">
+          <h1 className="text-xl font-bold">MyStore Admin</h1>
           <div className="flex gap-2">
-            {/* NEW: View Products JSON button */}
             <a
               href={`${API_URL}/api/products`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm"
             >
               View Products JSON
             </a>
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm"
             >
               Logout
             </button>
           </div>
         </div>
-        
+      </div>
+
+      {/* Main Content */}
+      <div className="p-8 max-w-2xl mx-auto">
         <div className="bg-white shadow-md rounded p-6">
           <h2 className="text-xl font-semibold mb-4">Add New Product</h2>
           
@@ -202,10 +211,11 @@ function Admin() {
           </button>
         </div>
 
+        {/* Preview Section */}
         {title && description && price && image && (
-          <div className="mt-8 bg-gray-100 p-6 rounded">
+          <div className="mt-8 bg-white p-6 rounded shadow-md">
             <h3 className="text-lg font-semibold mb-2">Preview:</h3>
-            <div className="border rounded-lg shadow p-4 bg-white">
+            <div className="border rounded-lg p-4">
               <img
                 src={image}
                 alt={title}
@@ -222,7 +232,7 @@ function Admin() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
