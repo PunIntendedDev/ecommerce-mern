@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import API_URL from "../config";
+import { CartContext } from "../context/CartContext";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ function SignIn() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);  
   const navigate = useNavigate();
+  const { fetchCart } = useContext(CartContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,6 +28,8 @@ function SignIn() {
       
       console.log("Login response:", res.data);
       localStorage.setItem("token", res.data.token);
+      await fetchCart();
+
       navigate("/products");
     } catch (err) {
       console.error("Login error:", err);

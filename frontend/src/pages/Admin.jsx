@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"; 
 import API_URL from '../config';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Admin() {
   const [title, setTitle] = useState("");
@@ -31,6 +31,7 @@ function Admin() {
     
     if (adminEmail === validEmail && adminPassword === validPassword) {
       localStorage.setItem("isAdmin", "true");
+      localStorage.setItem("token", "admin-token");
       setIsAuthenticated(true);
       setError("");
     } else {
@@ -40,9 +41,11 @@ function Admin() {
 
   const handleLogout = () => {
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
     setAdminEmail("");
     setAdminPassword("");
+    navigate("/");
   };
 
   const addProduct = async () => {
@@ -131,12 +134,23 @@ function Admin() {
       <div className="p-8 max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Admin Panel</h1>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          >
-            Logout
-          </button>
+          <div className="flex gap-2">
+            {/* NEW: View Products JSON button */}
+            <a
+              href={`${API_URL}/api/products`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+            >
+              View Products JSON
+            </a>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Logout
+            </button>
+          </div>
         </div>
         
         <div className="bg-white shadow-md rounded p-6">

@@ -28,10 +28,12 @@ export const CartProvider = ({ children }) => {
 
     try {
       setLoading(true);
+      console.log("Fetching cart...");
       const response = await axios.get(
         `${API_URL}/api/cart`,
         getAuthHeaders()
       );
+      console.log("Cart fetched:", response.data);
       setCart(response.data);
     } catch (err) {
       console.error("Error fetching cart:", err.response?.data || err.message);
@@ -57,12 +59,14 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
+      console.log("Adding to cart:", product);
       const response = await axios.post(
         `${API_URL}/api/cart/add`,
         { productId: product._id },
         getAuthHeaders()
       );
       setCart(response.data);
+      console.log("Cart updated:", response.data);
     } catch (err) {
       console.error("Error adding to cart:", err.response?.data || err.message);
       alert(err.response?.data || "Error adding to cart");
@@ -108,7 +112,7 @@ export const CartProvider = ({ children }) => {
       addToCart,
       removeFromCart,
       clearCart,
-      fetchCart,
+      fetchCart, 
       logout 
     }}>
       {children}
