@@ -14,7 +14,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 connectDB();
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: [FRONTEND_URL, "https://ecommerce-frontend-lac-omega.vercel.app"],
   credentials: true
 }));
 
