@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import API_URL from "../config";
 
@@ -57,6 +57,13 @@ function SignIn() {
 
   return (
     <div className="flex flex-col items-center mt-20">
+      <Link 
+        to="/" 
+        className="self-start ml-8 mb-4 text-blue-600 hover:text-blue-800 flex items-center gap-1"
+      >
+        <span>←</span> Back to Home
+      </Link>
+
       <form onSubmit={handleLogin} className="bg-white p-8 shadow rounded w-96">
         <h2 className="text-2xl mb-6 font-bold">Sign In</h2>
         
@@ -95,7 +102,7 @@ function SignIn() {
               : 'bg-blue-600 hover:bg-blue-700'
           }`}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <div className="flex justify-center">
