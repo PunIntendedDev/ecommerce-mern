@@ -1,20 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"; 
 import API_URL from '../config';
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const adminAuth = localStorage.getItem("isAdmin");
+    if (adminAuth === "true") {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    
+    const validEmail = import.meta.env.VITE_ADMIN_EMAIL;
+    const validPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    
+    if (adminEmail === validEmail && adminPassword === validPassword) {
+      localStorage.setItem("isAdmin", "true");
+      setIsAuthenticated(true);
+      setError("");
+    } else {
+      setError("Invalid admin credentials");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAdmin");
+    setIsAuthenticated(false);
+    setAdminEmail("");
+    setAdminPassword("");
+  };
 
   const addProduct = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem("token");
       
       await axios.post(
-        `${API_URL}/api/cart`/products/add``,
+        `${API_URL}/api/products/add`,
         {
           title,
           description,
@@ -38,15 +75,69 @@ function Admin() {
     } catch (err) {
       console.error("Error adding product:", err);
       alert(err.response?.data?.error || "Error adding product");
+    } finally {
+      setLoading(false);
     }
   };
 
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Navbar />
+        <div className="flex justify-center mt-20">
+          <form onSubmit={handleAdminLogin} className="bg-white p-8 shadow rounded w-96">
+            <h2 className="text-2xl mb-6 font-bold">Admin Login</h2>
+            
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {error}
+              </div>
+            )}
+            
+            <input
+              type="email"
+              className="border p-2 w-full mb-4"
+              placeholder="Admin Email"
+              value={adminEmail}
+              onChange={e => setAdminEmail(e.target.value)}
+              required
+            />
+
+            <input
+              type="password"
+              className="border p-2 w-full mb-4"
+              placeholder="Admin Password"
+              value={adminPassword}
+              onChange={e => setAdminPassword(e.target.value)}
+              required
+            />
+
+            <button
+              type="submit"
+              className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
+            >
+              Login as Admin
+            </button>
+          </form>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
-      <Navbar /> 
+      <Navbar />
       
       <div className="p-8 max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Admin Panel</h1>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
         
         <div className="bg-white shadow-md rounded p-6">
           <h2 className="text-xl font-semibold mb-4">Add New Product</h2>
@@ -56,6 +147,7 @@ function Admin() {
             placeholder="Product Title"
             value={title}
             onChange={e => setTitle(e.target.value)}
+            disabled={loading}
           />
 
           <input
@@ -63,6 +155,7 @@ function Admin() {
             placeholder="Description"
             value={description}
             onChange={e => setDescription(e.target.value)}
+            disabled={loading}
           />
 
           <input
@@ -71,6 +164,7 @@ function Admin() {
             placeholder="Price"
             value={price}
             onChange={e => setPrice(e.target.value)}
+            disabled={loading}
           />
 
           <input
@@ -78,13 +172,19 @@ function Admin() {
             placeholder="Image URL"
             value={image}
             onChange={e => setImage(e.target.value)}
+            disabled={loading}
           />
 
           <button
             onClick={addProduct}
-            className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition-colors w-full"
+            disabled={loading}
+            className={`w-full px-6 py-3 rounded text-white transition-colors ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-green-600 hover:bg-green-700'
+            }`}
           >
-            Add Product
+            {loading ? "Adding Product..." : "Add Product"}
           </button>
         </div>
 
